@@ -1,0 +1,74 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class InputController : MonoBehaviour, Controls.IPlayerActions
+{ 
+    private Controls m_Actions;                  // Source code representation of asset.
+    private Controls.PlayerActions m_Player;     // Source code representation of action map.
+
+    private Camera m_Camera;
+
+    private Vector2 m_Direction;
+    private Rigidbody m_Rigidbody;
+    private float m_MoveSpeed = 25;
+
+
+
+    void Update()
+    {
+        Vector3 result = m_Camera.transform.rotation * new Vector3(m_Direction.x, 0, m_Direction.y);
+        result.y = 0;
+        result.Normalize();
+
+        m_Rigidbody.linearVelocity = result * m_MoveSpeed;
+    }
+
+
+    void Awake()
+    {
+        m_Actions = new Controls();                       // Create asset object.
+        m_Player = m_Actions.Player;                      // Extract action map object.
+        m_Player.AddCallbacks(this);                      // Register callback interface IPlayerActions.
+
+
+        m_Camera = Camera.main;
+        m_Rigidbody = GetComponent<Rigidbody>();
+    }
+    
+    void OnDestroy()
+    {
+        m_Actions.Dispose();                              // Destroy asset object.
+    }
+    
+    void OnEnable()
+    {
+        m_Player.Enable();                                // Enable all actions within map.
+    }
+    
+    void OnDisable()
+    {
+        m_Player.Disable();                               // Disable all actions within map.
+    }
+    
+    
+#region Interface implementation of MyActions.IPlayerActions
+    
+    // Invoked when "Move" action is either started, performed or canceled.
+    public void OnMove(InputAction.CallbackContext context)
+    {
+       Debug.Log($"OnMove: {context.ReadValue<Vector2>()}");
+
+        m_Direction = context.ReadValue<Vector2>();
+    }
+    
+    // Invoked when "Attack" action is either started, performed or canceled.
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+       Debug.Log($"OnAttack: {context.ReadValue<float>()}");
+    }
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        Debug.Log("Fired!");
+    }
+#endregion
+}

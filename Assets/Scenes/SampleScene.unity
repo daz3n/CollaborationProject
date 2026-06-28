@@ -134,9 +134,11 @@ GameObject:
   - component: {fileID: 162042138}
   - component: {fileID: 162042137}
   - component: {fileID: 162042139}
+  - component: {fileID: 162042140}
+  - component: {fileID: 162042141}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,6 +308,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &162042140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162042132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f27d664121d8241ab29a2994ae1366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameplayAbilitySystem
+  skillList:
+  - {fileID: 11400000, guid: 3a8fd02d9d02fef4aab77751b31fc93c, type: 2}
+--- !u!114 &162042141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162042132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a6e474e5106b3479971a2a27cb57f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  m_MaxHealth: 100
+  m_CurrentHealth: 100
 --- !u!1 &221212195
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,8 +368,8 @@ MonoBehaviour:
   m_PlayerTransform: {fileID: 162042136}
   m_DistanceSpawnedFromPlayerMin: 50
   m_DistanceSpawnedFromPlayerMax: 100
-  m_SpawnsPerSecond: 1
-  m_MaxSpawnedEnemies: 100
+  m_SpawnsPerSecond: 2
+  m_MaxSpawnedEnemies: 1000
   m_EnemyTypes:
   - {fileID: 3566660792863676142, guid: 3baf87554921c3b439cba2392d22d064, type: 3}
 --- !u!4 &221212197

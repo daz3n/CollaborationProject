@@ -18,12 +18,17 @@ public class EnemySpawner : MonoBehaviour
 
     public static EnemySpawner Instance { get => instance; }
 
+
+
+    private float m_NextSpawnTimer = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (instance == null)
         {
             instance = this;
+            Enemy.OnEnemyDied += OnEnemyKilled;
         }
         else
         {
@@ -32,27 +37,39 @@ public class EnemySpawner : MonoBehaviour
 
         m_SpawnedEnemies = new List<GameObject>();
 
-        for (int i = 0; i < m_MaxSpawnedEnemies; ++i)
-        {
-            SpawnNextEnemy();
-        }
+        // for (int i = 0; i < m_MaxSpawnedEnemies; ++i)
+        // {
+        //     SpawnNextEnemy();
+        // }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        m_NextSpawnTimer += Time.deltaTime;
+
+        if (m_NextSpawnTimer >= 1.0f / m_SpawnsPerSecond)
+        {
+            m_NextSpawnTimer = 0.0f;
+
+            if (m_SpawnedEnemies.Count < m_MaxSpawnedEnemies)
+            {
+                SpawnNextEnemy();
+            }
+        }
     }
-    public void OnEnemyKilled(GameObject enemy)
-    {    
-        if (m_SpawnedEnemies.Contains(enemy))
-            m_SpawnedEnemies.Remove(enemy);        
+    public void OnEnemyKilled(Enemy enemy)
+    {
+        Debug.Log("EnemySpawner::OnEnemyKilled");
+
+        if (m_SpawnedEnemies.Contains(enemy.gameObject))
+            m_SpawnedEnemies.Remove(enemy.gameObject);        
     }
     private Vector3 GetNextSpawnLocation()
     {
         Vector2 ret = Random.onUnitCircle * Random.Range(m_DistanceSpawnedFromPlayerMin, m_DistanceSpawnedFromPlayerMax);
 
-        return new Vector3(ret.x, 1, ret.y);
+        return new Vector3(ret.x + m_PlayerTransform.position.x, 1, ret.y + m_PlayerTransform.position.z);
     }
     private GameObject SpawnNextEnemy()
     {
@@ -61,8 +78,6 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemy = Instantiate(m_EnemyTypes[idx]);
         enemy.transform.position = GetNextSpawnLocation();
         enemy.transform.LookAt(m_PlayerTransform.position);
-
-        Debug.Log(enemy);
 
         m_SpawnedEnemies.Add(enemy);
 

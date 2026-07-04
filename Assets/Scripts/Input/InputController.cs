@@ -20,7 +20,13 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
         result.y = 0;
         result.Normalize();
 
-        m_Rigidbody.linearVelocity = result * m_MoveSpeed;
+        Vector3 linearVelocity = m_Rigidbody.linearVelocity;
+        linearVelocity.x = result.x * m_MoveSpeed;
+        linearVelocity.z = result.z * m_MoveSpeed;
+
+        m_Rigidbody.linearVelocity = linearVelocity;
+        gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(m_Direction.x, 0, m_Direction.y).normalized);
+
     }
 
 

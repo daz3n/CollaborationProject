@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -14,8 +16,8 @@ public class Player : MonoBehaviour
 
     private float m_DamageVisibilityCounter = 0;
     private float m_MaxDamageVisibilityCounter = 0.5f;
-    private Material m_DamageVisibilityMaterial;
-    private Color m_OriginalDamageVisibilityColor;
+    private List<Material> m_DamageVisibiliityMaterials = new List<Material>();
+    private List<Color> m_OriginalDamageVisibilityColors = new List<Color>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,9 +30,11 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Player instance already exists in scene");
         }
-
-        m_DamageVisibilityMaterial = GetComponent<MeshRenderer>().materials[0];
-        m_OriginalDamageVisibilityColor = m_DamageVisibilityMaterial.color;
+        foreach (SkinnedMeshRenderer renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            m_DamageVisibiliityMaterials.Add(renderer.materials[0]);
+            m_OriginalDamageVisibilityColors.Add(renderer.materials[0].color);
+        }
 
         OnPlayerDeath += () => { Debug.Log("Player Died"); };
     }
@@ -48,7 +52,13 @@ public class Player : MonoBehaviour
             m_DamageVisibilityCounter = 0;
         }
         
-        m_DamageVisibilityMaterial.color = Color.Lerp(m_OriginalDamageVisibilityColor,Color.red, m_DamageVisibilityCounter / m_MaxDamageVisibilityCounter);
+        for (int i = 0; i < m_DamageVisibiliityMaterials.Count; ++i)
+        {
+            Material mat = m_DamageVisibiliityMaterials[i];
+            Color col = m_OriginalDamageVisibilityColors[i];
+
+            mat.color = Color.Lerp(col, Color.red, m_DamageVisibilityCounter / m_MaxDamageVisibilityCounter);
+        }
     }
 
     public void TakeDamage(float damage)

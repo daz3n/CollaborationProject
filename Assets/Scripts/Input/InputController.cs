@@ -8,6 +8,7 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
 
     private Camera m_Camera;
 
+    private Vector2 m_MousePos;
     private Vector2 m_Direction;
     private Rigidbody m_Rigidbody;
     private float m_MoveSpeed = 25;
@@ -25,7 +26,18 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
         linearVelocity.z = result.z * m_MoveSpeed;
 
         m_Rigidbody.linearVelocity = linearVelocity;
-        gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(m_Direction.x, 0, m_Direction.y).normalized);
+
+
+
+        Ray ray = m_Camera.ScreenPointToRay(m_MousePos);
+
+        if (Physics.Raycast(ray, out RaycastHit raycastHit))
+        {
+            Vector3 dotherotate = new Vector3(raycastHit.point.x, transform.position.y, raycastHit.point.z);
+            transform.LookAt(dotherotate);
+        }
+
+        // gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(m_Direction.x, 0, m_Direction.y).normalized);
 
     }
 
@@ -71,6 +83,13 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
     public void OnAttack(InputAction.CallbackContext context)
     {
        Debug.Log($"OnAttack: {context.ReadValue<float>()}");
+    }
+    // Invoked when "Look" action is either started, performed or canceled.
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        Debug.Log($"OnLook: {context.ReadValue<Vector2>()}");
+
+        m_MousePos = context.ReadValue<Vector2>();
     }
     public void OnFire(InputAction.CallbackContext context)
     {

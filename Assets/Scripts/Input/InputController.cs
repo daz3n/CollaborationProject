@@ -13,7 +13,7 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
     private Rigidbody m_Rigidbody;
     private float m_MoveSpeed = 25;
 
-
+    private Animator m_Animator;
 
     void Update()
     {
@@ -38,7 +38,8 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
         }
 
         // gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(m_Direction.x, 0, m_Direction.y).normalized);
-
+        m_Animator.SetFloat("Horizontal", result.x);
+        m_Animator.SetFloat("Vertical", result.z);
     }
 
 
@@ -51,6 +52,7 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
 
         m_Camera = Camera.main;
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_Animator = GetComponent<Animator>();
     }
     
     void OnDestroy()

@@ -11,7 +11,8 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
     private Vector2 m_MousePos;
     private Vector2 m_Direction;
     private Rigidbody m_Rigidbody;
-    private float m_MoveSpeed = 25;
+
+    public float m_MoveSpeed = 5;
 
     private Animator m_Animator;
 

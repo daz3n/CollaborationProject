@@ -135,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &221212196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,6 +845,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a6bed25b6c33e89499f8623f8d90b901,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a6bed25b6c33e89499f8623f8d90b901,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -908,6 +913,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: e4a15df2eb90b4842b8dea88fbbe8501, type: 2}
+    - target: {fileID: 5866666021909216657, guid: a6bed25b6c33e89499f8623f8d90b901,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1005,6 +1015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec173e0da77dca4db3d6e6710bcca65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputController
+  m_MoveSpeed: 5
 --- !u!114 &1207067104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,8 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f27d664121d8241ab29a2994ae1366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameplayAbilitySystem
-  skillList:
-  - {fileID: 11400000, guid: 3a8fd02d9d02fef4aab77751b31fc93c, type: 2}
+  skillList: []
 --- !u!4 &1207067108 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6bed25b6c33e89499f8623f8d90b901,

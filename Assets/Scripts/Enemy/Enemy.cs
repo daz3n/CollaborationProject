@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
         m_CurrentHealth = m_MaxHealth;
         m_DamageTick = 0;
     }
-    void TakeDamage(int amount)
+    public void TakeDamage(int amount)
     {
         m_CurrentHealth -= amount;
 

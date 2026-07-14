@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Skill_Jump
   m_EditorClassIdentifier: Assembly-CSharp::JumpSkill
   maxCooldown: 5
-  currentCooldown: 0
-  jumpForce: 50
+  currentCooldown: 1.6971781
+  jumpForce: 0

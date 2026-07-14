@@ -38,6 +38,7 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
             transform.LookAt(dotherotate);
         }
 
+        result = gameObject.transform.rotation * result;
         // gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(m_Direction.x, 0, m_Direction.y).normalized);
         m_Animator.SetFloat("Horizontal", result.x);
         m_Animator.SetFloat("Vertical", result.z);
@@ -77,7 +78,7 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
     // Invoked when "Move" action is either started, performed or canceled.
     public void OnMove(InputAction.CallbackContext context)
     {
-       Debug.Log($"OnMove: {context.ReadValue<Vector2>()}");
+       // Debug.Log($"OnMove: {context.ReadValue<Vector2>()}");
 
         m_Direction = context.ReadValue<Vector2>();
     }
@@ -85,18 +86,27 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
     // Invoked when "Attack" action is either started, performed or canceled.
     public void OnAttack(InputAction.CallbackContext context)
     {
-       Debug.Log($"OnAttack: {context.ReadValue<float>()}");
+       // Debug.Log($"OnAttack: {context.ReadValue<float>()}");
     }
     // Invoked when "Look" action is either started, performed or canceled.
     public void OnLook(InputAction.CallbackContext context)
     {
-        Debug.Log($"OnLook: {context.ReadValue<Vector2>()}");
+       // Debug.Log($"OnLook: {context.ReadValue<Vector2>()}");
 
         m_MousePos = context.ReadValue<Vector2>();
     }
     public void OnFire(InputAction.CallbackContext context)
     {
-        Debug.Log("Fired!");
+        if (context.phase == InputActionPhase.Started)
+        {
+            Debug.Log("Firing!");
+            m_Animator.SetBool("IsShooting", true);
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            Debug.Log("Done Firing!");
+            m_Animator.SetBool("IsShooting", false);
+        }
     }
 #endregion
 }

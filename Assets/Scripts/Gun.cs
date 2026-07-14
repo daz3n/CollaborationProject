@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -15,13 +17,14 @@ public class Gun : MonoBehaviour
         m_AmmoCount = m_MaxAmmoCount;
     }
 
-    public void Shoot()
+    public void OnShoot()
     {
         if (m_AmmoCount > 0)
         {
             --m_AmmoCount;
 
-            if (Physics.Raycast(transform.position,transform.forward,out RaycastHit hit, m_BulletRange, m_LayerMask))
+            Debug.DrawLine(transform.position, transform.position + new Vector3(transform.forward.x * m_BulletRange, transform.forward.y * m_BulletRange, transform.forward.z * m_BulletRange), Color.red, 1.0f, true);
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, m_BulletRange, m_LayerMask))
             {
                 Enemy enemy = hit.collider.gameObject.GetComponent<Enemy>();
 
@@ -37,6 +40,10 @@ public class Gun : MonoBehaviour
         }
     }
     public void Reload()
+    {
+        GetComponent<Animator>().SetTrigger("OnReload");
+    }
+    public void OnReload()
     {
         m_AmmoCount = m_MaxAmmoCount;
     }

@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
             Die();
         }
     }
-    void Die()
+    public void Die()
     {
         OnEnemyDied(this);
         Destroy(gameObject);

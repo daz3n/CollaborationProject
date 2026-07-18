@@ -38,10 +38,10 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
             transform.LookAt(dotherotate);
         }
 
-        result = gameObject.transform.rotation * result;
-        // gameObject.transform.rotation = Quaternion.LookRotation(new Vector3(m_Direction.x, 0, m_Direction.y).normalized);
-        m_Animator.SetFloat("Horizontal", result.x);
-        m_Animator.SetFloat("Vertical", result.z);
+        Vector3 localMove = transform.InverseTransformDirection(result);
+
+        m_Animator.SetFloat("Horizontal", localMove.x);
+        m_Animator.SetFloat("Vertical", localMove.z);
     }
 
 
@@ -80,7 +80,7 @@ public class InputController : MonoBehaviour, Controls.IPlayerActions
     {
        // Debug.Log($"OnMove: {context.ReadValue<Vector2>()}");
 
-        m_Direction = context.ReadValue<Vector2>();
+        m_Direction = context.ReadValue<Vector2>().normalized;
     }
     
     // Invoked when "Attack" action is either started, performed or canceled.
